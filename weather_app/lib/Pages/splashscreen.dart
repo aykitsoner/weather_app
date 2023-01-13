@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/API/weatherApi.dart';
+import 'package:weather_app/Pages/homepage.dart';
 import 'package:weather_app/Pages/location.dart';
+import 'package:weather_app/utils/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -29,12 +31,16 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     // getLocationData();
-    asyncFunc();
+    //asyncFunc();
   }
 
   asyncFunc() async {
     print('girdi');
     await WeatherApi().getData(query: {'lat': '41', 'lon': '29'});
+    // Future.delayed(const Duration(milliseconds: 2000), () {
+    //   testData = {'city_name': 'Üsküdar'};
+    // });
+    setState(() {});
     print('çikti');
   }
 
@@ -47,8 +53,24 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Text("latitude: ${locationData.latitude}"),
+            weatherData == null
+                ? const SizedBox()
+                : Text(weatherData['city_name'].toString()),
             // Text("longitude: ${locationData.longitude}")
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                );
+              },
+              child: Container(
+                width: 100,
+                height: 100,
+                color: Colors.amber,
+                child: Text("Buton"),
+              ),
+            ),
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:weather_app/utils/constants.dart';
 
 class WeatherApi {
   static const apiKey = "bc7215741fmshc93c5123ecc8a5dp149a13jsn0fc581e24d2f";
@@ -24,7 +25,8 @@ class WeatherApi {
         Uri.https("weatherbit-v1-mashape.p.rapidapi.com", endpoint, parameters);
     final response = await http.get(uri, headers: headers);
     print(response.statusCode);
-    var data = jsonDecode(response.body);
-    print(data);
+    weatherData = jsonDecode(response.body);
+    print(weatherData);
+    print(weatherData['city_name']);
   }
 }

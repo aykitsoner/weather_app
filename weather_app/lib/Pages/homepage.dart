@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/Pages/location.dart';
+import 'package:weather_app/utils/constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -99,6 +100,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget locationWidget() {
-    return Text("Konum");
+    return weatherData == null
+        ? const SizedBox()
+        : Text(weatherData['city_name'].toString());
   }
 }
