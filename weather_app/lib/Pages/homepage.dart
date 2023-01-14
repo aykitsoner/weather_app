@@ -19,13 +19,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget mainWidget(Size size) {
-    return Column(
-      children: [
-        headerWidget(size),
-        weatherIconWidget(),
-        weatherDegreeWidget(),
-        locationWidget(),
-      ],
+    return Container(
+      width: size.width,
+      height: size.height,
+      color: Colors.amber,
+      child: Stack(
+        //fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'images/gunesli.jpg',
+            fit: BoxFit.fill,
+            width: size.width,
+            height: size.height,
+          ),
+          weatherIconWidget(),
+          weatherDegreeWidget(),
+          locationWidget(),
+        ],
+      ),
     );
   }
 
@@ -85,23 +96,59 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget weatherIconWidget() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: Icon(
-        Icons.cloud,
-        color: Colors.amber,
-        size: 100,
-      ),
-    );
+    // String temp_s = weatherData['data'][0]['weather']['icon'];
+    // int tempInteger = int.parse(temp_s);
+    return weatherData['data'][0]['weather']['code'] <= 522
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 30),
+                child: Icon(
+                  Icons.add,
+                ),
+              ),
+            ],
+          )
+        : Padding(
+            padding: EdgeInsets.only(top: 30),
+            child: Icon(
+              Icons.abc,
+            ),
+          );
   }
 
   Widget weatherDegreeWidget() {
-    return Text("12", style: TextStyle(fontSize: 30));
+    double temp = weatherData['data'][0]['temp'];
+    int tempInteger = temp.toInt();
+    return weatherData == null
+        ? const SizedBox()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 150),
+                child: Text(tempInteger.toString() + '°',
+                    style: TextStyle(fontSize: 50)),
+              ),
+            ],
+          );
   }
 
   Widget locationWidget() {
     return weatherData == null
         ? const SizedBox()
-        : Text(weatherData['city_name'].toString());
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 200),
+                child: Text(
+                  weatherData['city_name'].toString(),
+                  style: TextStyle(fontSize: 30),
+                ),
+              ),
+            ],
+          );
   }
 }

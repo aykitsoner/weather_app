@@ -9,10 +9,10 @@ Future<void> main() async {
     home: SplashScreen(),
   ));
   print('girdi 1');
-  await WeatherApi().getData(query: {'lat': '41', 'lon': '29'});
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: HomePage(),
-  ));
+  // await WeatherApi().getData(query: {'lat': '41', 'lon': '29'});
+  // runApp(const MaterialApp(
+  //   debugShowCheckedModeBanner: false,
+  //   home: HomePage(),
+  // ));
   print('çikti 1');
 }

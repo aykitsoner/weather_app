@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+import 'package:lottie/lottie.dart';
 import 'package:weather_app/API/weatherApi.dart';
 import 'package:weather_app/Pages/homepage.dart';
 import 'package:weather_app/Pages/location.dart';
@@ -15,6 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
   late LocationHelper locationData;
   Future<void> getLocationData() async {
     locationData = LocationHelper();
+    String location_latitude = locationData.latitude.toString();
+    String location_longitude = locationData.longitude.toString();
     await locationData.getCurrentLocation();
     if (locationData.latitude == null || locationData.longitude == null) {
       print("Konum bilgileri gelmiyor.");
@@ -26,22 +30,35 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  asyncFunc() async {
+    print('girdi');
+    await getLocationData();
+    await WeatherApi().getData(
+      query: {
+        'lat': locationData.latitude.toString(),
+        'lon': locationData.longitude.toString()
+      },
+    );
+
+    setState(() {
+      print(weatherData);
+    });
+    print('çikti');
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     // getLocationData();
-    //asyncFunc();
-  }
+    asyncFunc();
 
-  asyncFunc() async {
-    print('girdi');
-    await WeatherApi().getData(query: {'lat': '41', 'lon': '29'});
-    // Future.delayed(const Duration(milliseconds: 2000), () {
-    //   testData = {'city_name': 'Üsküdar'};
-    // });
-    setState(() {});
-    print('çikti');
+    Future.delayed(const Duration(milliseconds: 10000), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    });
   }
 
   @override
@@ -49,30 +66,21 @@ class _SplashScreenState extends State<SplashScreen> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        width: size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            weatherData == null
-                ? const SizedBox()
-                : Text(weatherData['city_name'].toString()),
-            // Text("longitude: ${locationData.longitude}")
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                );
-              },
-              child: Container(
-                width: 100,
-                height: 100,
-                color: Colors.amber,
-                child: Text("Buton"),
-              ),
-            ),
-          ],
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.black,
+              Colors.grey,
+            ],
+          ),
         ),
+        child: Center(
+            child:
+                // Load a Lottie file from a remote url
+                Lottie.network(
+                    'https://assets10.lottiefiles.com/private_files/lf30_jmgekfqg.json')),
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:weather_app/utils/constants.dart';
 
 class WeatherApi {
-  static const apiKey = "bc7215741fmshc93c5123ecc8a5dp149a13jsn0fc581e24d2f";
+  static const apiKey = "bf3d153343msh122e68983c57eddp14d527jsn445b2b10c57d";
   static Map<String, String> headers = {
     "X-RapidAPI-Key": apiKey,
     "X-RapidAPI-Host": "weatherbit-v1-mashape.p.rapidapi.com",
